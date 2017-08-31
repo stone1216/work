@@ -1,0 +1,131 @@
+
+git status//查看状态
+
+git init
+git add file
+git commit -m "?"
+
+//查看版本信息
+git log//查看日志
+git log --pretty=oneline//一行显示
+git log --graph --pretty==oneline//查看commit分支结构
+git reflog//查看commit版本
+
+
+//版本回退
+git reset --hard head^ //回退上一版本
+git reset --hard head^^ //回退上两版本
+git reset --hard "commit版本号"
+ 
+ 
+git diff HEAD -- file.txt//查看版本库里面和工作区文件区别 
+git checkout -- file//丢弃工作区file文件修改,适用未add到暂存区(git checkout . 撤回所有修改)
+git reset HEAD file//适用已add到暂存区，把暂存区的修改撤销掉（unstage），重新放回工作区(git reset HEAD .撤回所有暂存区)
+
+
+//删除版本库文件file
+git rm file
+git commit -m "remove test.txt"
+
+
+//分支管理
+查看分支：git branch //-a参数查看所有
+创建分支：git branch <name>
+切换分支：git checkout <name>
+创建+切换分支：git checkout -b <name>
+创建+切换分支+跟踪远程分支：git checkout -b <name> origin/<name>
+合并某分支到当前分支：git merge <name>
+删除分支：git branch -d <name>
+
+
+
+
+//强制禁用Fast forward模式merge
+git merge --no-ff -m "merge with no-ff" dev
+
+
+github 新建repository使用流程
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:stone1216/repository.git
+git push -u origin master//初次提交加 -u会将远程master与本地关联
+
+github 以存在repository使用流程
+git remote add origin git@github.com:stone1216/ww.git
+git push -u origin master
+
+
+# 显示所有远程仓库
+$ git remote -v
+# 修改所有远程仓库
+git remote rm origin
+git remote add origin [url]
+
+# 显示某个远程仓库的信息
+$ git remote show [remote]
+
+# 增加一个新的远程仓库，并命名
+$ git remote add [shortname] [url]
+
+# 取回远程仓库的变化，并与本地分支合并
+$ git pull [remote] [branch]
+
+# 上传本地指定分支到远程仓库
+$ git push [remote] [branch]
+
+# 强行推送当前分支到远程仓库，即使有冲突
+$ git push [remote] --force
+
+# 推送所有分支到远程仓库
+$ git push [remote] --all
+
+
+//创建远程分支
+创建分支        $ git branch 分支名
+推送到远程    $ git push origin 分支名
+
+git push origin local_branch:remote_branch 
+local_branch必须为你本地存在的分支，remote_branch为远程分支，如果remote_branch不存在则会自动创建分支。
+
+类似，git push origin :remote_branch，local_branch留空的话则是删除远程remote_branch分支。
+
+git branch -vv（两个v），就能够看到本地分支跟踪的远程分支 
+git push -u origin master -u参数可以设置本地master和远程master跟踪
+
+
+git add .
+他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件
+git add -u
+他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）
+git add -A 
+是上面两个功能的合集（git add --all的缩写）
+
+//添加远程仓储
+git remote add origin url
+删除远程分支
+//git remote rm origin 
+修改提交编辑器
+git config --global --replace-all core.editor   "'sublime_text.exe' -w"
+
+撤销所有暂存区文件
+git --reset HEAD　． 
+撤销所有修改但未add的文件
+git checkout .
+任意字符匹配
+\*
+
+git rm  = 手动删除文件并执行git + add
+撤销这种add 采用git --reset HEAD　．
+
+本地需要该文件，但是不想被git版控制
+git rm -r --cached filename
+git rm -- cached 是从stage（index，暂存区） 里面删除文件，当你提交（commit）之后文件就会删除了。
+git reset HEAD -- file : 回退暂存区里的文件（还原为HEAD commit里面该文件的状态），会撤销从上一次提交（commit）之后的一些操作。 如果是对于新增文件，这两个操作时等效的
+ git rm --cached 作用： 从索引里删除文件。 如果要删除的文件已经在仓库里了，git rm --cached 将会从索引里删除该文件，但本地工作目录还会保存源代码，提交之后将会同时从仓库里删除该文件 git reset HEAD file (命令默认参数为 --mixed) 不同于文件已经在仓库中，该命令的作用是 用repo(HEAD)替换index中file的版本，使file的版本回退到HEAD版本，这个命令可以用于unstageing 对该文件的      改动。
+
+不相关项目不能pull问题
+git pull origin master --allow-unrelated-histories
+
+
+
